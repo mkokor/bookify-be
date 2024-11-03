@@ -56,6 +56,12 @@ public class UserEntity extends Auditable implements UserDetails, Principal, Ser
       @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private Set<RoleEntity> roles;
 
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "book_reservation", joinColumns = {
+          @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "book_id")})
+  private Set<BookEntity> books;
+
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
   private List<ConfirmationCodeEntity> confirmationCodes;
 

@@ -18,6 +18,9 @@ import lombok.Setter;
 public class BookEntity extends Auditable implements Serializable {
 
     @Serial
+//    @Id
+//    @GeneratedValue
+//    @Column(name = "id", updatable = false, nullable = false)
     private static final long serialVersionUID = 1L;
 
     @Column(name = "title", nullable = false)

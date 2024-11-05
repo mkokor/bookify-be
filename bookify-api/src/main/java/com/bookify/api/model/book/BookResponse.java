@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collector;
 
+
+
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +34,5 @@ public class BookResponse implements Serializable {
     private int copiesAvailable;
     private int numberOfPages;
     private String coverImage;
-
-
 
 }

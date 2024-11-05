@@ -2,6 +2,7 @@ package com.bookify.rest.book;
 
 import com.bookify.api.AuthenticationService;
 import com.bookify.api.BookService;
+import com.bookify.api.model.book.BookRequest;
 import com.bookify.api.model.book.BookResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +38,14 @@ public class BookRestService {
   public ResponseEntity<List<BookResponse>> getAllUsers() {
     List<BookResponse> books = bookService.getAllBooks();
     return new ResponseEntity<>(books, HttpStatus.OK);
+  }
+
+
+  @Operation(summary = "Create a new book")
+  @PostMapping(value = "/create")
+  public ResponseEntity<BookResponse> createBook(@RequestBody BookRequest bookRequest) {
+    BookResponse bookResponse = bookService.createBook(bookRequest);
+    return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
   }
 
 

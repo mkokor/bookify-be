@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.awt.print.Book;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +27,29 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-
     @Override
     public List<BookResponse> getAllBooks() {
         List<BookEntity> books = bookRepository.findAll();
-        return books.stream()
-                .map(bookEntity -> new BookResponse())
-                .collect(Collectors.toList());
+        List<BookResponse> bookResponses = new ArrayList<>();
+
+        for (BookEntity bookEntity : books) {
+            BookResponse response = new BookResponse();
+            response.setId(bookEntity.getId());
+            response.setIssueDate(bookEntity.getIssueDate());
+            response.setAuthor(bookEntity.getAuthor());
+            response.setGenre(bookEntity.getGenre());
+            response.setTitle(bookEntity.getTitle());
+            response.setDescription(bookEntity.getDescription());
+            response.setCopiesAvailable(bookEntity.getCopiesAvailable());
+            response.setNumberOfPages(bookEntity.getNumberOfPages());
+            response.setCoverImage(bookEntity.getBookUrl());
+
+            bookResponses.add(response);
+        }
+
+        return bookResponses;
     }
+
 
 
     @Override

@@ -10,10 +10,15 @@ import java.util.UUID;
 
 public interface BookRepository extends JpaRepository<BookEntity, UUID> {
 
-    Optional<BookEntity> findByTitle(final String title);
+
 
     Optional<BookEntity> findByAuthor(final String author);
 
     List<BookEntity> findAll();
+
+    Optional<BookEntity> findById(UUID id);
+
+    Optional<BookEntity> findByTitle(final String title);
+
 
 }

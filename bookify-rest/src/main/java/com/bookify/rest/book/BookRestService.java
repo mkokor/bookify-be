@@ -63,5 +63,13 @@ public class BookRestService {
     return new ResponseEntity<>(bookResponse, HttpStatus.OK);
   }
 
+  @Operation(summary = "Delete book by ID")
+  @DeleteMapping(value = "/delete/{id}")
+  public ResponseEntity<Void> deleteBookById(@PathVariable UUID id) {
+    bookService.deleteBookById(id);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+
 
 }

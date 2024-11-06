@@ -12,5 +12,6 @@ public interface BookService {
    BookResponse createBook(BookRequest bookRequest);
    BookResponse getBookById(UUID id);
    BookResponse getBookByTitle(String title);
+   void deleteBookById(UUID id);
 
 }

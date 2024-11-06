@@ -119,6 +119,17 @@ public class BookServiceImpl implements BookService {
         return response;
     }
 
+    @Override
+    public void deleteBookById(UUID id) {
+        bookRepository.findById(id).orElseThrow(() -> {
+            ApiError apiError = new ApiError(ApiErrorType.BUSINESS_LOGIC, "Book not found with id: " + id);
+            return new ResponseStatusException(HttpStatus.NOT_FOUND, apiError.getMessage());
+        });
+
+        bookRepository.deleteById(id);
+    }
+
+
 }
 
 

@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Tag(name = "book", description = "Book API")
 @RestController
@@ -46,6 +47,20 @@ public class BookRestService {
   public ResponseEntity<BookResponse> createBook(@RequestBody BookRequest bookRequest) {
     BookResponse bookResponse = bookService.createBook(bookRequest);
     return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
+  }
+
+  @Operation(summary = "Get book by ID")
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<BookResponse> getBookById(@PathVariable UUID id) {
+    BookResponse bookResponse = bookService.getBookById(id);
+    return new ResponseEntity<>(bookResponse, HttpStatus.OK);
+  }
+
+  @Operation(summary = "Get book by title")
+  @GetMapping(value = "/findByTitle")
+  public ResponseEntity<BookResponse> getByTitle(@RequestParam String title) {
+    BookResponse bookResponse = bookService.getBookByTitle(title);
+    return new ResponseEntity<>(bookResponse, HttpStatus.OK);
   }
 
 

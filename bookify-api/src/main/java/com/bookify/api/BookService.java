@@ -13,5 +13,9 @@ public interface BookService {
    BookResponse getBookById(UUID id);
    BookResponse getBookByTitle(String title);
    void deleteBookById(UUID id);
+   boolean isBookReserved(UUID bookId);
+   void reserveBook(UUID userId, UUID bookId);
+
+
 
 }

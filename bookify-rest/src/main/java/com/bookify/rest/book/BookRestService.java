@@ -70,6 +70,22 @@ public class BookRestService {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  @Operation(summary = "Reserve a book for a user")
+  @PostMapping(value = "/reserve")
+  public ResponseEntity<Void> reserveBook(
+          @RequestParam UUID userId,
+          @RequestParam UUID bookId) {
+    bookService.reserveBook(userId, bookId);
+    return ResponseEntity.ok().build();
+  }
+
+
+  @Operation(summary = "Check if a book is reserved")
+  @GetMapping(value = "/reservation/{bookId}")
+  public ResponseEntity<Boolean> isBookReserved(@PathVariable UUID bookId){
+    boolean isReserved = bookService.isBookReserved(bookId);
+    return ResponseEntity.ok(isReserved);
+  }
 
 
 }

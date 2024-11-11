@@ -8,6 +8,7 @@ import com.bookify.api.model.error.ApiError;
 import com.bookify.api.model.exception.ApiException;
 import com.bookify.core.mapper.BookMapper;
 import com.bookify.dao.model.BookEntity;
+import com.bookify.dao.model.UserEntity;
 import com.bookify.dao.repository.BookRepository;
 
 import com.bookify.dao.repository.UserRepository;
@@ -32,6 +33,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final UserRepository userRepository;
     @Override
     public List<BookResponse> getAllBooks() {
         List<BookEntity> books = bookRepository.findAll();
@@ -128,6 +130,34 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.deleteById(id);
     }
+
+    @Override
+    public boolean isBookReserved(UUID bookId) {
+        return bookRepository.findById(bookId)
+                .map(book -> !book.getUsers().isEmpty())
+                .orElse(false);
+    }
+
+    @Transactional
+    @Override
+    public void reserveBook(UUID userId, UUID bookId) {
+        try {
+            UserEntity user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+            System.out.println(user);
+            BookEntity book = bookRepository.findById(bookId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+            if (user.getBooks().contains(book)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book is already reserved by this user");
+            }
+            user.getBooks().add(book);
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage(), e);
+        }
+    }
+
+
 
 
 }

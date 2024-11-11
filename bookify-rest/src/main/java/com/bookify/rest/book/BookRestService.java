@@ -3,6 +3,7 @@ package com.bookify.rest.book;
 import com.bookify.api.AuthenticationService;
 import com.bookify.api.BookService;
 import com.bookify.api.model.book.BookRequest;
+import com.bookify.api.model.book.BookReservationRequest;
 import com.bookify.api.model.book.BookResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -70,6 +71,20 @@ public class BookRestService {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
+  @Operation(summary = "Reserve a book for a user")
+  @PostMapping(value = "/reserve")
+  public ResponseEntity<String> reserveBook(@RequestBody BookReservationRequest request) {
+    bookService.reserveBook(request.getUserId(), request.getBookId());
+    return new ResponseEntity<>("Book reserved successfully", HttpStatus.OK);
+  }
+
+
+  @Operation(summary = "Check if a book is reserved")
+  @GetMapping(value = "/reservation/{bookId}")
+  public ResponseEntity<Boolean> isBookReserved(@PathVariable UUID bookId){
+    boolean isReserved = bookService.isBookReserved(bookId);
+    return ResponseEntity.ok(isReserved);
+  }
 
 
 }

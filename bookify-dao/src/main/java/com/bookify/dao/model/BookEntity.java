@@ -38,7 +38,6 @@ public class BookEntity extends Auditable implements Serializable {
     @Column(name = "description")
     private String description;
 
-
     @Column(name = "number_of_pages")
     private int  numberOfPages;
 
@@ -47,8 +46,6 @@ public class BookEntity extends Auditable implements Serializable {
 
     @Column(name = "book_url")
     private String  bookUrl;
-
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_file_map", joinColumns = {

@@ -19,4 +19,5 @@ public interface BookService {
    List<BookResponse> getReservationsUser(String authHeader);
    void deleteReservationUser(String authHeader, UUID bookId);
    void deleteReservationAdmin(UUID userId, UUID bookId);
+
 }

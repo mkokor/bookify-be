@@ -6,11 +6,11 @@ import com.bookify.api.enums.ApiErrorType;
 import com.bookify.api.model.book.BookRequest;
 import com.bookify.api.model.book.BookResponse;
 import com.bookify.api.model.error.ApiError;
+import com.bookify.api.model.exception.ApiException;
 import com.bookify.core.mapper.BookMapper;
 import com.bookify.dao.model.BookEntity;
 import com.bookify.dao.model.UserEntity;
 import com.bookify.dao.repository.BookRepository;
-
 import com.bookify.dao.repository.BookReservationRepository;
 import com.bookify.dao.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -24,6 +24,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -31,8 +41,10 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final UserRepository userRepository;
+
     private final BookReservationRepository bookReservationRepository;
     private final TokenService tokenService;
+
     @Override
     public List<BookResponse> getAllBooks() {
         List<BookEntity> books = bookRepository.findAll();
@@ -147,6 +159,7 @@ public class BookServiceImpl implements BookService {
             String token = authHeader.substring(7);
             String username = tokenService.getAccessTokenOwner(token);// Remove "Bearer " prefix
             UserEntity user = userRepository.findByUsername(username)
+
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             System.out.println(user);
             BookEntity book = bookRepository.findById(bookId)
@@ -156,6 +169,7 @@ public class BookServiceImpl implements BookService {
             if (reservedCopiesCount >= book.getCopiesAvailable()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "All copies of this book are already reserved");
             }
+
             if (user.getBooks().contains(book)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book is already reserved by this user");
             }
@@ -163,6 +177,7 @@ public class BookServiceImpl implements BookService {
             userRepository.save(user);
         } catch (ResponseStatusException e) {
             throw e;
+
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage(), e);
         }
@@ -266,8 +281,6 @@ public class BookServiceImpl implements BookService {
         user.getBooks().remove(book);
         userRepository.save(user);
     }
-
-
 
 }
 

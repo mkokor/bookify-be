@@ -47,6 +47,7 @@ public class BookEntity extends Auditable implements Serializable {
     @Column(name = "book_url")
     private String  bookUrl;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_file_map", joinColumns = {
             @JoinColumn(name = "book_id")}, inverseJoinColumns = {@JoinColumn(name = "file_id")})

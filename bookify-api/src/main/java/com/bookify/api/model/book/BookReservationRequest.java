@@ -13,7 +13,17 @@ import java.util.UUID;
 @Getter
 @Setter
 public class BookReservationRequest implements Serializable {
+
+    private UUID userId;
     private UUID bookId;
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 
     public UUID getBookId() {
         return bookId;

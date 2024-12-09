@@ -1,5 +1,6 @@
 package com.bookify.rest.book;
 
+import com.bookify.api.AuthenticationService;
 import com.bookify.api.BookService;
 import com.bookify.api.model.book.BookRequest;
 import com.bookify.api.model.book.BookReservationRequest;
@@ -113,13 +114,11 @@ public class BookRestService {
     return new ResponseEntity<>("Reservation deleted successfully", HttpStatus.OK);
   }
 
-
   @Operation(summary = "Check if a book is reserved")
   @GetMapping(value = "/reservation/{bookId}")
   public ResponseEntity<Boolean> isBookReserved(@PathVariable UUID bookId){
     boolean isReserved = bookService.isBookReserved(bookId);
     return ResponseEntity.ok(isReserved);
   }
-
 
 }

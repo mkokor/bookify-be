@@ -1,8 +1,8 @@
 package com.bookify.core.impl;
 
-import com.bookify.api.OpenAIService;
-import com.bookify.api.model.openai.OpenAIRequest;
-import com.bookify.api.model.openai.OpenAIResponse;
+import com.bookify.api.HuggingFaceService;
+import com.bookify.api.model.openai.HuggingFaceRequest;
+import com.bookify.api.model.openai.HuggingFaceResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class OpenAIServiceImpl implements OpenAIService{
+public class HuggingFaceServiceImpl implements HuggingFaceService {
 
     @Value("${huggingface.api.key}")
     private String huggingFaceApiKey;
@@ -24,7 +24,7 @@ public class OpenAIServiceImpl implements OpenAIService{
     private static final String API_URL = "https://api-inference.huggingface.co/models/gpt2";
 
     @Override
-    public OpenAIResponse generateText(OpenAIRequest request) {
+    public HuggingFaceResponse generateText(HuggingFaceRequest request) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + huggingFaceApiKey);
         headers.set("Content-Type", "application/json");
@@ -46,14 +46,14 @@ public class OpenAIServiceImpl implements OpenAIService{
                     .map(map -> map.get("generated_text")) // Ekstrahuj samo `generated_text`
                     .toList();
 
-            OpenAIResponse openAIResponse = new OpenAIResponse();
+            HuggingFaceResponse openAIResponse = new HuggingFaceResponse();
             openAIResponse.setGenerated_text(generatedTexts);
             return openAIResponse;
         }
         return null;
     }
 
-    private String createRequestBody(OpenAIRequest request) {
+    private String createRequestBody(HuggingFaceRequest request) {
         // Kreiraj prompt koji uključuje naslov i autora knjige
         String prompt = String.format(
                 "Provide a concise summary of the average reader's rating for '%s' by %s. Include a hypothetical star rating (e.g., 'Readers give this book a 4.5-star review for its themes and storytelling').",

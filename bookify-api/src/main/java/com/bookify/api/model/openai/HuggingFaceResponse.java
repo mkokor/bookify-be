@@ -2,7 +2,7 @@ package com.bookify.api.model.openai;
 
 import java.util.List;
 
-public class OpenAIResponse {
+public class HuggingFaceResponse {
 
     private List<String> generated_text; // Promenjeno na generated_text, kako bi odgovaralo formatu
 

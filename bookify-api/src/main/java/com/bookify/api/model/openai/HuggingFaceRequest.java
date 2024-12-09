@@ -1,7 +1,7 @@
 package com.bookify.api.model.openai;
 
 
-public class OpenAIRequest {
+public class HuggingFaceRequest {
 
     private String model;
     private String prompt;

@@ -12,6 +12,7 @@ import com.bookify.api.model.authentication.PasswordResetCodeRequest;
 import com.bookify.api.model.authentication.PasswordResetRequest;
 import com.bookify.api.model.authentication.UserLoginRequest;
 import com.bookify.api.model.authentication.UserLoginResponse;
+import com.bookify.api.model.book.BookResponse;
 import com.bookify.api.model.confirmationcode.EmailConfirmationCodeUpdateRequest;
 import com.bookify.api.model.confirmationcode.EmailConfirmationRequest;
 import com.bookify.api.model.exception.ApiException;
@@ -23,10 +24,7 @@ import com.bookify.api.model.exception.UnauthorizedException;
 import com.bookify.api.model.user.UserRegistrationRequest;
 import com.bookify.api.model.user.UserResponse;
 import com.bookify.core.mapper.UserMapper;
-import com.bookify.dao.model.ConfirmationCodeEntity;
-import com.bookify.dao.model.RefreshTokenEntity;
-import com.bookify.dao.model.RoleEntity;
-import com.bookify.dao.model.UserEntity;
+import com.bookify.dao.model.*;
 import com.bookify.dao.repository.ConfirmationCodeRepository;
 import com.bookify.dao.repository.RefreshTokenRepository;
 import com.bookify.dao.repository.RoleRepository;
@@ -34,6 +32,8 @@ import com.bookify.dao.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -348,6 +348,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     if (Boolean.TRUE.equals(existsByField.test(fieldValue))) {
       throw new BadRequestException(String.format("Provided %s is already taken.", fieldName));
     }
+  }
+
+  @Override
+  public List<UserResponse> getAllUsers() {
+    List<UserEntity> users = userRepository.findAll();
+    List<UserResponse> userResponses = new ArrayList<>();
+
+    for (UserEntity userEntity : users) {
+      userResponses.add(userMapper.toUserResponse(userEntity));
+    }
+
+    return userResponses;
   }
 
 }

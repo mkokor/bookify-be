@@ -8,6 +8,7 @@ import com.bookify.api.model.book.BookResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class BookRestService {
 
   @Operation(summary = "Get all books")
   @GetMapping(value = "/all")
-  public ResponseEntity<List<BookResponse>> getAllUsers() {
+  public ResponseEntity<List<BookResponse>> getAllBooks() {
     List<BookResponse> books = bookService.getAllBooks();
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
@@ -73,11 +74,45 @@ public class BookRestService {
 
   @Operation(summary = "Reserve a book for a user")
   @PostMapping(value = "/reserve")
-  public ResponseEntity<String> reserveBook(@RequestBody BookReservationRequest request) {
-    bookService.reserveBook(request.getUserId(), request.getBookId());
+  public ResponseEntity<String> reserveBook(
+          @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+          @RequestBody BookReservationRequest request) {
+    bookService.reserveBook(authHeader, request.getBookId());
     return new ResponseEntity<>("Book reserved successfully", HttpStatus.OK);
   }
 
+  @Operation(summary = "Admin - Get all reservations for a user")
+  @GetMapping(value = "/reservations/{userId}")
+  public ResponseEntity<List<BookResponse>> getReservationsAdmin(@PathVariable UUID userId) {
+    List<BookResponse> userReservations = bookService.getReservationsAdmin(userId);
+    return new ResponseEntity<>(userReservations, HttpStatus.OK);
+  }
+
+  @Operation(summary = "Get all reservations for the current user")
+  @GetMapping(value = "/reservations")
+  public ResponseEntity<List<BookResponse>> getUserReservations(
+          @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+    List<BookResponse> userReservations = bookService.getReservationsUser(authHeader);
+    return new ResponseEntity<>(userReservations, HttpStatus.OK);
+  }
+
+  @Operation(summary = "Delete a reservation for the current user")
+  @DeleteMapping(value = "/reservations")
+  public ResponseEntity<String> deleteReservationUser(
+          @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
+          @RequestBody BookReservationRequest request) {
+    bookService.deleteReservationUser(authHeader, request.getBookId());
+    return new ResponseEntity<>("Reservation deleted successfully", HttpStatus.OK);
+  }
+
+  @Operation(summary = "Admin - Delete a reservation for a specific user")
+  @DeleteMapping(value = "/reservations/{userId}")
+  public ResponseEntity<String> deleteReservationByUserAndBook(
+          @PathVariable UUID userId,
+          @RequestBody BookReservationRequest request) {
+    bookService.deleteReservationAdmin(userId, request.getBookId());
+    return new ResponseEntity<>("Reservation deleted successfully", HttpStatus.OK);
+  }
 
   @Operation(summary = "Check if a book is reserved")
   @GetMapping(value = "/reservation/{bookId}")
@@ -85,6 +120,5 @@ public class BookRestService {
     boolean isReserved = bookService.isBookReserved(bookId);
     return ResponseEntity.ok(isReserved);
   }
-
 
 }

@@ -7,6 +7,7 @@ import com.bookify.api.model.authentication.PasswordResetCodeRequest;
 import com.bookify.api.model.authentication.PasswordResetRequest;
 import com.bookify.api.model.authentication.UserLoginRequest;
 import com.bookify.api.model.authentication.UserLoginResponse;
+import com.bookify.api.model.book.BookResponse;
 import com.bookify.api.model.confirmationcode.EmailConfirmationCodeUpdateRequest;
 import com.bookify.api.model.confirmationcode.EmailConfirmationRequest;
 import com.bookify.api.model.exception.ApiException;
@@ -21,12 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "authentication", description = "Authentication API")
 @RestController
@@ -113,6 +111,13 @@ public class AuthenticationRestService {
 
     return new ResponseEntity<>(authenticationService.resetPassword(passwordResetRequest),
         HttpStatus.OK);
+  }
+
+  @Operation(summary = "Get all user")
+  @GetMapping(value = "/all")
+  public ResponseEntity<List<UserResponse>> getAllUser() {
+    List<UserResponse> users = authenticationService.getAllUsers();
+    return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
   private void addRefreshTokenCookie(final HttpServletResponse httpServletResponse,

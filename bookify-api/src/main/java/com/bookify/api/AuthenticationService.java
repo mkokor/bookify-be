@@ -12,6 +12,8 @@ import com.bookify.api.model.exception.ApiException;
 import com.bookify.api.model.user.UserRegistrationRequest;
 import com.bookify.api.model.user.UserResponse;
 
+import java.util.List;
+
 public interface AuthenticationService {
 
   UserResponse register(final UserRegistrationRequest userRegistrationRequest) throws ApiException;
@@ -33,5 +35,7 @@ public interface AuthenticationService {
 
   GenericResponse resetPassword(final PasswordResetRequest passwordResetRequest)
       throws ApiException;
+
+  List<UserResponse> getAllUsers();
 
 }

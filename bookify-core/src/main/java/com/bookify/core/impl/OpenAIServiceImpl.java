@@ -49,7 +49,6 @@ public class OpenAIServiceImpl implements OpenAIService {
         return "{\n" +
                 "  \"model\": \"gpt-3.5-turbo\",\n" +
                 "  \"messages\": [\n" +
-                "    {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n" +
                 "    {\"role\": \"user\", \"content\": \"What is the average rating of the book \\\""
                 + request.getTitle() + "\\\" by author \\\"" + request.getAuthor() + "\\\"?\"}\n" +
                 "  ],\n" +

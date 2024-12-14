@@ -56,7 +56,7 @@ public class HuggingFaceServiceImpl implements HuggingFaceService {
     private String createRequestBody(HuggingFaceRequest request) {
         // Kreiraj prompt koji uključuje naslov i autora knjige
         String prompt = String.format(
-                "Provide a concise summary of the average reader's rating for '%s' by %s. Include a hypothetical star rating (e.g., 'Readers give this book a 4.5-star review for its themes and storytelling').",
+                "Give me a number rating for '%s' by %s.",
                 request.getTitle(),
                 request.getAuthor()
         );

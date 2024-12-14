@@ -45,6 +45,7 @@
 			<artifactId>bookify-rest</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.bookify</groupId>
 			<artifactId>bookify-core</artifactId>

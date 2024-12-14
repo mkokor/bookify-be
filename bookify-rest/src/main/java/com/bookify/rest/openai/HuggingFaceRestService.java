@@ -6,12 +6,12 @@ import com.bookify.api.model.openai.HuggingFaceResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/openai")
-public class HuggingFaceCOntroller {
+@RequestMapping("/huggingface")
+public class HuggingFaceRestService {
 
     private final HuggingFaceService openAIService;
 
-    public HuggingFaceCOntroller(HuggingFaceService openAIService) {
+    public HuggingFaceRestService(HuggingFaceService openAIService) {
         this.openAIService = openAIService;
     }
 

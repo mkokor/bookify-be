@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 public class OpenAIServiceImpl implements OpenAIService {
 
@@ -83,6 +85,79 @@ public class OpenAIServiceImpl implements OpenAIService {
             e.printStackTrace();
             return "Error parsing OpenAI response.";
         }
+    }
+
+    @Override
+    public String suggestBooks(OpenAIRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + openAiApiKey);
+        headers.set("Content-Type", "application/json");
+
+        Object requestBody = createSuggestionRequestBody(request);
+        String jsonBody;
+        try {
+            jsonBody = objectMapper.writeValueAsString(requestBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error creating request body.";
+        }
+        HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                openAiApiUrl,
+                HttpMethod.POST,
+                entity,
+                String.class
+        );
+
+        try {
+            OpenAIResponse openAIResponse = objectMapper.readValue(response.getBody(), OpenAIResponse.class);
+
+            if (openAIResponse.getChoices() != null && !openAIResponse.getChoices().isEmpty()) {
+                return openAIResponse.getChoices().get(0).getMessage().getContent();
+            } else {
+                return "No suggestions returned from OpenAI API.";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error parsing OpenAI response.";
+        }
+    }
+
+    private Object createSuggestionRequestBody(OpenAIRequest request) {
+        // Kreiranje prompta na osnovu žanrova i autora
+        StringBuilder prompt = new StringBuilder("Suggest some books that match the following preferences:\n");
+        if (request.getGenres() != null && !request.getGenres().isEmpty()) {
+            List<String> filteredGenres = request.getGenres()
+                    .stream()
+                    .filter(genre -> genre != null && !genre.isEmpty())
+                    .toList();
+            if (!filteredGenres.isEmpty()) {
+                prompt.append("Genres: ").append(String.join(", ", filteredGenres)).append(". ");
+            }
+        }
+
+        if (request.getAuthors() != null && !request.getAuthors().isEmpty()) {
+            List<String> filteredAuthors = request.getAuthors()
+                    .stream()
+                    .filter(author -> author != null && !author.isEmpty())
+                    .toList();
+            if (!filteredAuthors.isEmpty()) {
+                prompt.append("Authors: ").append(String.join(", ", filteredAuthors)).append(". ");
+            }
+        }
+
+        // Kreiraj JSON objekt
+        return new Object() {
+            public final String model = "gpt-3.5-turbo";
+            public final List<Object> messages = List.of(new Object() {
+                public final String role = "user";
+                public final String content = prompt.toString();
+            });
+            public final double temperature = 0.7;
+            public final int max_tokens = 150;
+        };
     }
 
     private String createSummaryRequestBody(OpenAIRequest request) {

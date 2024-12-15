@@ -23,4 +23,9 @@ public class OpenAIRestService {
     public String generateBookSummary(@RequestBody OpenAIRequest request) {
         return openAIService.generateSummary(request);
     }
+
+    @PostMapping("/suggest-books")
+    public String suggestBooks(@RequestBody OpenAIRequest request) {
+        return openAIService.suggestBooks(request);
+    }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,6 +14,8 @@ public class OpenAIRequest {
 
     private String title;   // Polje za naziv knjige
     private String author;  // Polje za autora knjige
+    private List<String> genres;   // Novi parametar za žanrove
+    private List<String> authors;
 
     // Getters and Setters
 

@@ -18,4 +18,9 @@ public class OpenAIRestService {
     public String generateBookRating(@RequestBody OpenAIRequest request) {
         return openAIService.generateRating(request);
     }
+
+    @PostMapping("/generate-summary")
+    public String generateBookSummary(@RequestBody OpenAIRequest request) {
+        return openAIService.generateSummary(request);
+    }
 }

@@ -5,4 +5,5 @@ import com.bookify.api.model.openai.OpenAIResponse;
 
 public interface OpenAIService {
     String generateRating(OpenAIRequest request);
+    String generateSummary(OpenAIRequest request);
 }

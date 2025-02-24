@@ -1,14 +1,11 @@
 package com.bookify.rest.library;
 
-import com.bookify.api.AuthenticationService;
-
 import com.bookify.api.LibraryService;
 import com.bookify.api.model.library.LibraryResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Tag(name = "library", description = "Library API")
 @RestController

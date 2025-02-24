@@ -1,3 +1,9 @@
+package com.bookify.rest.library;
+
+import com.bookify.api.AuthenticationService;
+
+import com.bookify.api.LibraryService;
+import com.bookify.api.model.library.LibraryResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,5 +34,12 @@ public class LibraryRestService {
   @GetMapping("/authorization-customer")
   public Object customer() {
     return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
+
+  @Operation(summary = "Get all libraries")
+  @GetMapping(value = "/all")
+  public ResponseEntity<List<LibraryResponse>> getAllLibraries() {
+    List<LibraryResponse> libraries = libraryService.getAllLibraries();
+    return new ResponseEntity<>(libraries, HttpStatus.OK);
   }
 }

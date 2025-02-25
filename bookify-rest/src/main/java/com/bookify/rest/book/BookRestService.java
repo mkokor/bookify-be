@@ -5,6 +5,8 @@ import com.bookify.api.BookService;
 import com.bookify.api.model.book.BookRequest;
 import com.bookify.api.model.book.BookReservationRequest;
 import com.bookify.api.model.book.BookResponse;
+import com.bookify.api.model.library.LibraryResponse;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -119,6 +121,14 @@ public class BookRestService {
   public ResponseEntity<Boolean> isBookReserved(@PathVariable UUID bookId){
     boolean isReserved = bookService.isBookReserved(bookId);
     return ResponseEntity.ok(isReserved);
+  }
+  
+  @Operation(summary = "Get book locations")
+  @GetMapping(value = "/locations/{bookId}")
+  public ResponseEntity<List<LibraryResponse>> getBookLocations(@PathVariable UUID bookId) {
+	    List<LibraryResponse> libraryLocations = bookService.getBookLocationsById(bookId);
+	    return new ResponseEntity<>(libraryLocations, HttpStatus.OK);
+	  
   }
 
 }

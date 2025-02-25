@@ -18,11 +18,10 @@ public class BookRequest implements Serializable {
     private String title;
     @NotBlank(message = "Author must be specified.")
     private String author;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime issueDate;
     private String genre;
     private String description;
     private int numberOfPages;
     private int copiesAvailable;
     private String bookUrl;
+    private String locations;
 }

@@ -19,6 +19,6 @@ public interface BookRepository extends JpaRepository<BookEntity, UUID> {
     Optional<BookEntity> findById(UUID id);
 
     Optional<BookEntity> findByTitle(final String title);
-
+   
 
 }

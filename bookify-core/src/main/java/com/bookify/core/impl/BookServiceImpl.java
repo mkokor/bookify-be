@@ -1,12 +1,12 @@
 package com.bookify.core.impl;
 
 import com.bookify.api.BookService;
+
 import com.bookify.api.TokenService;
 import com.bookify.api.enums.ApiErrorType;
 import com.bookify.api.model.book.BookRequest;
 import com.bookify.api.model.book.BookResponse;
 import com.bookify.api.model.error.ApiError;
-import com.bookify.api.model.exception.ApiException;
 import com.bookify.api.model.library.LibraryResponse;
 import com.bookify.core.mapper.BookMapper;
 import com.bookify.dao.model.BookEntity;
@@ -14,6 +14,9 @@ import com.bookify.dao.model.UserEntity;
 import com.bookify.dao.repository.BookRepository;
 import com.bookify.dao.repository.BookReservationRepository;
 import com.bookify.dao.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,16 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.awt.print.Book;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,8 +60,6 @@ public class BookServiceImpl implements BookService {
 
         return bookResponses;
     }
-
-
 
     @Override
     public BookResponse createBook(BookRequest bookRequest) {
@@ -297,6 +288,7 @@ public class BookServiceImpl implements BookService {
 	        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error parsing locations JSON", e);
 	    }
 	}
+
 }
 
 

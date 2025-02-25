@@ -21,7 +21,6 @@ public class BookResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private UUID id;
-    private LocalDateTime issueDate;
     private String author;
     private String genre;
     private String title;

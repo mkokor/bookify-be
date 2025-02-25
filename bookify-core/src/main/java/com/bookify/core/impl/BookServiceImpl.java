@@ -53,7 +53,6 @@ public class BookServiceImpl implements BookService {
         for (BookEntity bookEntity : books) {
             BookResponse response = new BookResponse();
             response.setId(bookEntity.getId());
-            response.setIssueDate(bookEntity.getIssueDate());
             response.setAuthor(bookEntity.getAuthor());
             response.setGenre(bookEntity.getGenre());
             response.setTitle(bookEntity.getTitle());
@@ -75,7 +74,6 @@ public class BookServiceImpl implements BookService {
         BookEntity bookEntity = new BookEntity();
         bookEntity.setTitle(bookRequest.getTitle());
         bookEntity.setAuthor(bookRequest.getAuthor());
-        bookEntity.setIssueDate(bookRequest.getIssueDate());
         bookEntity.setGenre(bookRequest.getGenre());
         bookEntity.setDescription(bookRequest.getDescription());
         bookEntity.setNumberOfPages(bookRequest.getNumberOfPages());
@@ -97,7 +95,6 @@ public class BookServiceImpl implements BookService {
 
         BookResponse response = new BookResponse();
         response.setId(bookEntity.getId());
-        response.setIssueDate(bookEntity.getIssueDate());
         response.setAuthor(bookEntity.getAuthor());
         response.setGenre(bookEntity.getGenre());
         response.setTitle(bookEntity.getTitle());
@@ -120,7 +117,6 @@ public class BookServiceImpl implements BookService {
 
         BookResponse response = new BookResponse();
         response.setId(bookEntity.getId());
-        response.setIssueDate(bookEntity.getIssueDate());
         response.setAuthor(bookEntity.getAuthor());
         response.setGenre(bookEntity.getGenre());
         response.setTitle(bookEntity.getTitle());
@@ -194,7 +190,6 @@ public class BookServiceImpl implements BookService {
         for (BookEntity bookEntity : reservedBooks) {
             BookResponse response = new BookResponse();
             response.setId(bookEntity.getId());
-            response.setIssueDate(bookEntity.getIssueDate());
             response.setAuthor(bookEntity.getAuthor());
             response.setGenre(bookEntity.getGenre());
             response.setTitle(bookEntity.getTitle());
@@ -226,7 +221,6 @@ public class BookServiceImpl implements BookService {
         for (BookEntity bookEntity : reservedBooks) {
             BookResponse response = new BookResponse();
             response.setId(bookEntity.getId());
-            response.setIssueDate(bookEntity.getIssueDate());
             response.setAuthor(bookEntity.getAuthor());
             response.setGenre(bookEntity.getGenre());
             response.setTitle(bookEntity.getTitle());

@@ -29,9 +29,6 @@ public class BookEntity extends Auditable implements Serializable {
     @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "issue_date", nullable = false)
-    private LocalDateTime issueDate;
-
     @Column(name = "genre")
     private String genre;
 
@@ -46,7 +43,6 @@ public class BookEntity extends Auditable implements Serializable {
 
     @Column(name = "book_url")
     private String  bookUrl;
-
     
     @Column(name = "locations", columnDefinition = "TEXT")
     private String locations;

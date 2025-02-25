@@ -25,4 +25,5 @@ public class BookRequest implements Serializable {
     private int numberOfPages;
     private int copiesAvailable;
     private String bookUrl;
+    private String locations;
 }

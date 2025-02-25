@@ -7,6 +7,7 @@ import com.bookify.api.model.book.BookRequest;
 import com.bookify.api.model.book.BookResponse;
 import com.bookify.api.model.error.ApiError;
 import com.bookify.api.model.exception.ApiException;
+import com.bookify.api.model.library.LibraryResponse;
 import com.bookify.core.mapper.BookMapper;
 import com.bookify.dao.model.BookEntity;
 import com.bookify.dao.model.UserEntity;
@@ -276,6 +277,26 @@ public class BookServiceImpl implements BookService {
         userRepository.save(user);
     }
 
+	@Override
+	public List<LibraryResponse> getBookLocationsById(UUID bookId) {
+	    BookEntity bookEntity = bookRepository.findById(bookId)
+	            .orElseThrow(() -> {
+	                ApiError apiError = new ApiError(ApiErrorType.BUSINESS_LOGIC, "Book not found with id: " + bookId);
+	                return new ResponseStatusException(HttpStatus.NOT_FOUND, apiError.getMessage());
+	            });
+
+	    String locationsJson = bookEntity.getLocations(); 
+	    ObjectMapper objectMapper = new ObjectMapper();
+
+	    try {
+	        return objectMapper.readValue(
+	                locationsJson,
+	                objectMapper.getTypeFactory().constructCollectionType(List.class, LibraryResponse.class)
+	        );
+	    } catch (JsonProcessingException e) {
+	        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error parsing locations JSON", e);
+	    }
+	}
 }
 
 

@@ -1,5 +1,6 @@
 package com.bookify.api.model.book;
 
+import com.bookify.api.model.library.LibraryResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;

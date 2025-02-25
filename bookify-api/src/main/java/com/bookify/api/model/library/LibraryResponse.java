@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
-import java.io.Serializable;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,12 +11,12 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "Properties of a library response object")
-public class LibraryResponse implements Serializable {
+public class LibraryResponse {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private UUID id;
+    private int id;
     private String name;
     private String address;
     private String phone;

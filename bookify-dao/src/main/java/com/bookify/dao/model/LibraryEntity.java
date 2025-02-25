@@ -11,10 +11,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "libraries")
-public class LibraryEntity extends Auditable implements Serializable {
+public class LibraryEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Id
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
